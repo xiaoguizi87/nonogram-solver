@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NonogramSolver from '../components/NonogramSolver.astro';
+
+const faqs = [
+  { question: 'What is a nonogram solver?', answer: 'A nonogram solver uses the number clues beside each row and column to find a black and white grid that satisfies every clue. This tool also checks whether the clues determine one solution or several.' },
+  { question: 'How do I solve a nonogram online?', answer: 'Choose the grid width and height, type the clues for every row and column in order, and select Solve Puzzle. You can load the example to see the format first.' },
+  { question: 'Is this picross solver free?', answer: 'Yes. It is free to use, requires no account, and solves your clues locally in your browser.' },
+  { question: 'Can this solver handle 25x25 puzzles?', answer: 'Yes. Width and height can each be set from 5 to 25 cells. Some difficult puzzles may reach the time or search limit; that result does not mean the clues are impossible.' },
+  { question: 'What happens if my clues are incorrect?', answer: 'The tool points to malformed or overlong row and column clues, and checks whether the total filled cells agree. If individually valid clues contradict each other, it reports No Solution without blaming a particular line.' },
+  { question: 'Can a nonogram have multiple solutions?', answer: 'Yes. Some clues allow more than one grid. The solver searches for two different valid solutions and shows one when it proves there are multiple.' },
+  { question: 'Can I download the solved puzzle?', answer: 'Yes. After a solution appears, select Download PNG to save a clean image of the grid.' }
+];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } }))
+};
+const appSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'Nonogram Solver',
+  url: 'https://nonogramsolver.app/',
+  description: 'A free browser-based tool for solving nonogram and picross puzzles from 5x5 to 25x25.',
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Any',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }
+};
+---
+<Layout>
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(appSchema)} /><script type="application/ld+json" set:html={JSON.stringify(faqSchema)} /></Fragment>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="/" aria-label="Nonogram Solver home"><span class="brand-mark" aria-hidden="true">▦</span> Nonogram Solver</a><a class="header-link" href="#how-to">How it works <span aria-hidden="true">↗</span></a></div></header>
+  <main>
+    <section class="hero container"><div class="hero-copy"><p class="eyebrow">FREE ONLINE PUZZLE SOLVER</p><h1>Nonogram Solver — Solve Your Puzzle Online</h1><p class="lead">Enter your row and column clues to solve nonogram puzzles online. This free picross solver supports grids from 5×5 to 25×25, with instant validation, visual solutions, and PNG downloads.</p><a class="hero-link" href="#solver">Start solving <span aria-hidden="true">↓</span></a></div><div class="hero-art" aria-hidden="true"><div class="art-grid">{Array.from({ length: 25 }, (_, i) => <span class:list={{ filled: [2,6,7,8,10,11,12,13,14,16,17,18,22].includes(i) }} />)}</div><span class="art-label">5 × 5 example</span></div></section>
+    <div class="container"><NonogramSolver /></div>
+    <div class="container content-area">
+      <section class="info-section" id="about"><p class="eyebrow">THE BASICS</p><h2>What Is a Nonogram?</h2><p>A nonogram is a picture logic puzzle, also known as Picross or a griddler. Numbers beside each row and above each column describe groups of consecutive filled cells in that line, in order. At least one empty cell separates neighboring groups. When every row and column agrees, the filled cells reveal a picture.</p></section>
+      <section class="info-section" id="how-to"><p class="eyebrow">GET STARTED</p><h2>How to Use This Nonogram Solver</h2><ol class="steps"><li><strong>Select puzzle size.</strong> Use a preset or set width and height separately.</li><li><strong>Enter row clues.</strong> Type each row’s groups from top to bottom.</li><li><strong>Enter column clues.</strong> Type each column’s groups from left to right.</li><li><strong>Click Solve Puzzle.</strong> The tool validates the clues and searches in your browser.</li><li><strong>Review and download the solution.</strong> Check the status, then save the grid as a PNG if you like.</li></ol></section>
+      <section class="info-section" id="tips"><p class="eyebrow">INPUT GUIDE</p><h2>Tips for Entering Nonogram Clues</h2><div class="tip-grid"><div><h3>One group</h3><p><code>5</code> means five filled cells in a row.</p></div><div><h3>Several groups</h3><p><code>1 3 1</code> means groups of one, three, and one filled cell, with at least one empty cell between them. Commas work too: <code>1, 3, 1</code>.</p></div><div><h3>Empty line</h3><p>Enter <code>0</code> when a row or column has no filled cells. Leave no clue field blank when solving.</p></div></div></section>
+      <section class="info-section faq" id="faq"><p class="eyebrow">QUESTIONS & ANSWERS</p><h2>Frequently Asked Questions</h2><div class="faq-list">{faqs.map(({ question, answer }) => <div class="faq-item"><h3>{question}</h3><p>{answer}</p></div>)}</div></section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>Nonogram Solver</span><span>Free puzzle solving in your browser.</span></div></footer>
+</Layout>

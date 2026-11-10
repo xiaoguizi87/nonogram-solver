@@ -1,0 +1,52 @@
+<section class="tool" id="solver" aria-labelledby="solver-heading">
+  <div class="tool-heading">
+    <div>
+      <p class="eyebrow">THE PUZZLE TOOL</p>
+      <h2 id="solver-heading">Solve a puzzle</h2>
+      <p>Set your grid, enter every clue, then let the solver check the possibilities.</p>
+    </div>
+    <span class="privacy-note">Runs in your browser</span>
+  </div>
+
+  <div class="size-panel">
+    <div class="size-topline"><h3>1. Choose grid size</h3><span>5 to 25 cells per side</span></div>
+    <div class="presets" role="group" aria-label="Common puzzle sizes">
+      {[5, 10, 15, 20, 25].map((size) => <button class:list={['preset', { active: size === 5 }]} type="button" data-size={size}>{size} × {size}</button>)}
+    </div>
+    <div class="dimension-fields">
+      <label for="width">Width <input id="width" type="number" min="5" max="25" value="5" inputmode="numeric" /></label>
+      <label for="height">Height <input id="height" type="number" min="5" max="25" value="5" inputmode="numeric" /></label>
+    </div>
+    <p class="field-help" id="size-note">Changing size keeps clues for rows and columns that still fit. Clues outside the new size are removed.</p>
+  </div>
+
+  <div class="workbench">
+    <div class="input-panel card">
+      <div class="card-head"><div><h3>2. Enter clues</h3><p>Use spaces or commas between groups. Enter <strong>0</strong> for an empty line.</p></div></div>
+      <div class="clue-columns">
+        <div class="clue-group"><h4>Row clues</h4><div id="row-clues" class="clue-list">
+          {Array.from({ length: 5 }, (_, index) => <label class="clue-field" for={`row-${index + 1}`}><span>Row {index + 1}</span><input id={`row-${index + 1}`} data-kind="row" data-index={index} type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 1 3" aria-label={`Row ${index + 1} clues`} /></label>)}
+        </div></div>
+        <div class="clue-group"><h4>Column clues</h4><div id="column-clues" class="clue-list">
+          {Array.from({ length: 5 }, (_, index) => <label class="clue-field" for={`column-${index + 1}`}><span>Column {index + 1}</span><input id={`column-${index + 1}`} data-kind="column" data-index={index} type="text" inputmode="numeric" autocomplete="off" placeholder="e.g. 1 3" aria-label={`Column ${index + 1} clues`} /></label>)}
+        </div></div>
+      </div>
+      <div class="input-actions">
+        <button id="example" type="button" class="button subtle">Load Example</button>
+        <button id="undo" type="button" class="button subtle" disabled>Undo</button>
+        <button id="reset" type="button" class="button subtle">Reset</button>
+      </div>
+    </div>
+
+    <div class="result-panel card">
+      <div class="card-head"><div><h3>3. See the solution</h3><p>A valid result matches every row and column clue.</p></div></div>
+      <button id="solve" type="button" class="button primary">Solve Puzzle <span aria-hidden="true">→</span></button>
+      <div id="feedback" class="feedback idle" role="status" aria-live="polite">Enter clues or load the example to begin.</div>
+      <div id="errors" class="errors" role="alert" aria-live="assertive" hidden></div>
+      <div class="board-wrap"><canvas id="board" width="360" height="360" aria-label="Solved nonogram grid" hidden></canvas><div id="board-placeholder" class="board-placeholder" aria-hidden="true"><span class="placeholder-grid"></span><p>Your solution will appear here</p></div></div>
+      <div class="result-actions"><button id="cancel" type="button" class="button subtle" hidden>Cancel search</button><button id="download" type="button" class="button secondary" disabled>Download PNG</button></div>
+      <p id="result-detail" class="result-detail"></p>
+    </div>
+  </div>
+</section>
+<script src="../scripts/ui.ts"></script>

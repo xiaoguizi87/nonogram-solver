@@ -1,0 +1,26 @@
+---
+import '../styles/global.css';
+
+const title = 'Nonogram Solver — Solve Any Nonogram Puzzle Instantly';
+const description = 'Free online Nonogram Solver. Enter row and column clues, solve Picross puzzles from 5x5 to 25x25, check errors, and download your solution as PNG. No signup required.';
+const canonical = 'https://nonogramsolver.app/';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nonogram Solver" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <slot name="head" />
+  </head>
+  <body><slot /></body>
+</html>
